@@ -1,9 +1,10 @@
 <template>
-
+  <div id="app">
+    <h2>hhhhhhh</h2>
+  </div>
 </template>
-  <div id="app"></div>
-<script>
 
+<script>
 export default {
   name: 'App',
   components: {
