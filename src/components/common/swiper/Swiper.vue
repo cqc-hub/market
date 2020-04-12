@@ -1,5 +1,5 @@
 <template>
-    <div id="hy-swiper">
+    <div id="cqc-swiper">
       <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
         <slot></slot>
       </div>
@@ -212,7 +212,7 @@
 </script>
 
 <style scoped>
-  #hy-swiper {
+  #cqc-swiper {
     overflow: hidden;
     position: relative;
   }
