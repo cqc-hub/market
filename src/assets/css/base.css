@@ -6,8 +6,7 @@
     --color-text: #666;
     /*提前定义变量    color:var(--color-text)*/
     --color-high-text: #ff577;
-    --color-tint: pink;
-		/*#ff8198*/
+    --color-tint: rgba(0,0,0,.46);
     --color-background:#fff;
     /*background: var(--color-background);*/
     --font-size: 14px;

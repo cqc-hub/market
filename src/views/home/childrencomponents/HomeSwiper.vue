@@ -1,9 +1,11 @@
 <template>
-	<swiper>
-		<swiper-item v-for="item in banners" :key="item.index">
+
+		<swiper>
+			<swiper-item v-for="item in banners" :key="item.index">
 				<img :src="item.image" alt="">
-		</swiper-item>
-	</swiper>
+			</swiper-item>
+		</swiper>
+
 </template>
 
 <script>
@@ -27,5 +29,7 @@
 </script>
 
 <style scoped>
-
+	.shanow{
+		box-shadow: 0px 1px 8px rgba(100,100,100,.8);
+	}
 </style>
