@@ -1,19 +1,19 @@
 <template>
-	
+
 		<div class="tab-bar-item" @click="itemClick">
-			
+
 			<!-- <img src="../../assets/img/tabbar/HOME.svg" alt="">
 			<div>首页</div> -->
 			<div v-if="isActive"><slot name="item-icon-active" ></slot></div>
 			<div v-else><slot name="item-icon" ></slot></div>
-			
+
 			<!-- <div :class="{active:isActive}"> -->
 			<div :style="activeStyle">
 				<slot name="item-text" ></slot>
 			</div>
 		</div>
-		
-	
+
+
 </template>
 
 <script>
@@ -36,9 +36,9 @@
 				if(this.$route.path!=this.path){
 					this.$router.replace(this.path)
 				}
-				
+
 				// console.log('11111')
-				
+
 			}
 		},
 		computed:{
@@ -60,6 +60,7 @@
 		height: 49px;
 		/* tabbar一般49最优 */
 		font-size: 14px;
+		z-index: 11;
 	}
 	.tab-bar-item img{
 		width: 24px;

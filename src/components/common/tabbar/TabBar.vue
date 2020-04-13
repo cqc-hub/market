@@ -1,9 +1,9 @@
 <template>
-	
+
 		<div id="tab-bar">
 			<slot></slot>
 		</div>
-	
+
 </template>
 
 <script>
@@ -21,6 +21,7 @@
 		right: 0;
 		bottom: 0;
 		box-shadow: 0px 1px 8px rgba(100,100,100,.8);
+		z-index: 11;
 	}
-	
+
 </style>

@@ -36,15 +36,16 @@
 
 <style scoped>
 	.active{
-		color: rgba(255,0,0,.6);
-		border-bottom: 3px solid pink;
+		color: #003c8bb0;
+		border-bottom: 3px solid rgba(43, 31, 34, 0.78);
+		border-radius: 65%;
 	}
 	.tab-control{
 		display: flex;
 		text-align: center;
 		justify-content: space-between;
 		font-size: 17px;
-		background-color: #fff;
+		background-color: rgba(255,255,255,.9);
 	}
 	.tab-control-item{
 		flex: 1;
