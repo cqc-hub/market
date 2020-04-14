@@ -21,6 +21,7 @@
 			methods:{
 				clickItem(index){
 					this.currentIndex=index
+					this.$emit('TabControlClick',index)
 				}
 			},
 				props:{

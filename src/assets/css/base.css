@@ -33,6 +33,7 @@ body {
     color: var(--color-text);
     /*rem vw/vh*/
     width: 100vw;
+		overflow: hidden;
 }
 
 .clear-fix::after {
