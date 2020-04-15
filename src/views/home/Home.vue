@@ -4,8 +4,11 @@
 			<div slot="center">购物街</div>
 		</nav-bar>
 
-		<scroll class="content" @position="scroll_position" ref="scroll" :probe-type="3">
-
+		<scroll class="content"
+						@position="scroll_position"
+						ref="scroll"
+						:probe-type="3"
+						:pullUpLoad="true">
 			<home-swiper :banners="banners"></home-swiper>
 			<home-recommends :recommends="recommends"></home-recommends>
 			<feature></feature>
@@ -71,12 +74,35 @@
 			this.getHomeGoods('new')
 			this.getHomeGoods('sell')
 
+
+		},
+		mounted(){
+			const refresh=this.debounce(this.$refs.scroll && this.$refs.scroll.refresh,300)
+			//监听图片加载完成
+			this.$bus.$on('imageLoad',()=>{
+				// this.$refs.scroll && this.$refs.scroll.refresh()
+				refresh()
+			})
 		},
 		methods:{
+			debounce(funct,delay){
+				let timer=null   //timer在闭包里面 但是在之后函数内有被引用所以不会被销毁
+				return (...args)=>{
+					if (timer) clearTimeout(timer)
+					timer=setTimeout(()=>{
+						funct.apply(this,args)
+					},delay)
+				}
+			},
 			backtop(){
 				// console.log(this.$refs.scroll);
 				this.$refs.scroll.scrollTo(0,0,500)
 			},
+			// loadMore(){
+			// 	// console.log('loadmore');
+			// 	this.getHomeGoods(this.currentType)
+			// 	this.$refs.scroll.scroll.refresh()
+			// },
 			/*
 			* 事件监听
 			* */
@@ -97,7 +123,7 @@
 				this.currentType=Object.keys(this.goods)[index]
 			},
 			scroll_position(position){
-				this.isShow=position.y<-800
+				this.isShow=position.y<-300
 			},
 
 			/*
@@ -110,13 +136,15 @@
 				})
 			},
 			getHomeGoods(type){
-
 				const page=this.goods[type].page+1
 				getHomeGoods(type,page).then(res=>{
 					this.goods[type].list.push(...res.data.list)
 					this.goods[type].page ++
+
+					// this.$refs.scroll.scroll.finishPullUp()
 				})
 			}
+
 		},
 		computed:{
 			showGods(){
