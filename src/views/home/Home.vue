@@ -3,19 +3,29 @@
 		<nav-bar class="home-nav">
 			<div slot="center">购物街</div>
 		</nav-bar>
-
+		<tab-control :titles="['流行','新款','精选']"
+								 @TabControlClick="TabControlClick"
+								 ref="tabControl1"
+								 class="tabcontrolii"
+								 v-show="isTabFixed"
+		>
+		</tab-control>
 		<scroll class="content"
 						@position="scroll_position"
 						ref="scroll"
 						:probe-type="3"
-						:pullUpLoad="true">
-			<home-swiper :banners="banners"></home-swiper>
+						:pullUpLoad="true"
+						:pull-up-load="true"
+						@pullingUp="loadMore">
+			<home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad"></home-swiper>
 			<home-recommends :recommends="recommends"></home-recommends>
 			<feature></feature>
 			<tab-control :titles="['流行','新款','精选']"
-									 class="tab-control"
 									 @TabControlClick="TabControlClick"
-			></tab-control>
+									 ref="tabControl2"
+									 :class="{boboo:isTabFixed}"
+									 >
+			</tab-control>
 			<good-list :goods="showGods"></good-list>
 		</scroll>
 		<back-top class="back-top" v-show="isShow"
@@ -40,6 +50,8 @@
 	import GoodList from "@/components/content/goods/GoodList";
 	import Scroll from "@/components/common/scroll/Scroll";
 	import BackTop from "@/components/content/backtop/BackTop";
+	import {debounce} from "@/common/utils";
+
 	export default{
 		name:'Home',
 		components:{
@@ -63,7 +75,9 @@
 
 				},
 				currentType:'pop',
-				isShow:false
+				isShow:false,
+				tabOffsetTop:0,
+				isTabFixed:false
 			}
 		},
 		created() {
@@ -74,35 +88,31 @@
 			this.getHomeGoods('new')
 			this.getHomeGoods('sell')
 
-
 		},
 		mounted(){
-			const refresh=this.debounce(this.$refs.scroll && this.$refs.scroll.refresh,300)
+			const refresh=debounce(this.$refs.scroll && this.$refs.scroll.refresh,300)
 			//监听图片加载完成
 			this.$bus.$on('imageLoad',()=>{
 				// this.$refs.scroll && this.$refs.scroll.refresh()
 				refresh()
 			})
+
 		},
 		methods:{
-			debounce(funct,delay){
-				let timer=null   //timer在闭包里面 但是在之后函数内有被引用所以不会被销毁
-				return (...args)=>{
-					if (timer) clearTimeout(timer)
-					timer=setTimeout(()=>{
-						funct.apply(this,args)
-					},delay)
-				}
+			swiperImgLoad(){
+				//获取tabcontrol的offsetTop
+				this.tabOffsetTop=this.$refs.tabControl2.$el.offsetTop
+
 			},
 			backtop(){
 				// console.log(this.$refs.scroll);
 				this.$refs.scroll.scrollTo(0,0,500)
 			},
-			// loadMore(){
-			// 	// console.log('loadmore');
-			// 	this.getHomeGoods(this.currentType)
-			// 	this.$refs.scroll.scroll.refresh()
-			// },
+			loadMore(){
+				// console.log('loadmore');
+				this.getHomeGoods(this.currentType)
+				this.$refs.scroll.refresh()
+			},
 			/*
 			* 事件监听
 			* */
@@ -121,9 +131,15 @@
 				//
 				// }
 				this.currentType=Object.keys(this.goods)[index]
+				this.$refs.tabControl1.currentIndex=index
+				this.$refs.tabControl2.currentIndex=index
 			},
 			scroll_position(position){
+				//判断返回顶部按钮的显示与否
 				this.isShow=position.y<-300
+
+				//判断tabcontrol是否吸顶
+				this.isTabFixed=-position.y>this.tabOffsetTop
 			},
 
 			/*
@@ -141,7 +157,8 @@
 					this.goods[type].list.push(...res.data.list)
 					this.goods[type].page ++
 
-					// this.$refs.scroll.scroll.finishPullUp()
+					//刷新上啦
+					this.$refs.scroll.finishPullUp()
 				})
 			}
 
@@ -156,7 +173,6 @@
 
 <style scoped>
 	#home{
-		padding-top: 44px;
 	/*height: 100vh;//端口（屏幕自适应）	*/
 		height: 100vh;
 		position: relative;
@@ -164,19 +180,19 @@
 	.home-nav{
 		background-color: var(--color-tint);
 		color: white;
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		z-index: 9;
+		/*position: fixed;*/
+		/*top: 0;*/
+		/*left: 0;*/
+		/*right: 0;*/
+		/*z-index: 9;*/
 	}
-	.tab-control{
-		position: sticky;
-		/*固定位置 需要配合top*/
-		top: 44px;
-		z-index: 1;
-		line-height: 37px;
-	}
+	/*.tab-control{*/
+	/*	!*position: sticky;*!*/
+	/*	!*固定位置 需要配合top*!*/
+	/*	!*top: 44px;*!*/
+	/*	z-index: 1;*/
+	/*	line-height: 37px;*/
+	/*}*/
 	.content{
 		position: absolute;
 		top: 44px;
@@ -188,6 +204,14 @@
 	}
 	.backtopshow{
 		animation: backtopshow 0.3s linear;
+	}
+	.tabcontrolii{
+		position: relative;
+		/*z-index 只对定位的东西起效果*/
+		z-index: 1;
+	}
+	.boboo{
+		opacity: 0;
 	}
 	@keyframes backtopshow{
 		from{opacity: 0;}

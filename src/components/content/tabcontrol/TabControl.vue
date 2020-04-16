@@ -5,7 +5,12 @@
 <!--				<span>{{item}}</span>-->
 <!--			</div>-->
 			<div v-for="(item,index) in titles"  class="tab-control-item" :key="item">
-				<span :class="{active:index==currentIndex}" @click="clickItem(index)">{{item}}</span>
+				<span :class="{
+					active:index==currentIndex}"
+							@click="clickItem(index)"
+							class="tab-control-c"
+				>
+					{{item}}</span>
 			</div>
 		</div>
 </template>
@@ -51,8 +56,14 @@
 	.tab-control-item{
 		flex: 1;
 		height: 40px;
+		position: relative;
+
 	}
 	.tab-control-item>span{
 		padding: 5px;
+	}
+	.tab-control-c{
+		display: inline-block;
+		transform: translateY(15%);
 	}
 </style>

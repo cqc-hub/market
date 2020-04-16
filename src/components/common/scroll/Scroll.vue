@@ -17,11 +17,13 @@
 					}
 			},
 			methods:{
+				finishPullUp(){
+					this.scroll && this.scroll.finishPullUp()
+				},
         	scrollTo(x,y,time=500){
 						this.scroll && this.scroll.scrollTo(x,y,time)
 					},
 					refresh(){
-						console.log('----');
 						this.scroll && this.scroll.refresh()
 					}
 			},
@@ -30,10 +32,10 @@
         		type:Number,
 						default:0
 					},
-				// pullUpLoad:{
-				// 	type:Boolean,
-				// 	default: false
-				// }
+				pullUpLoad:{
+					type:Boolean,
+					default: false
+				}
 			},
 			mounted(){
 				this.scroll=new BScroll(this.$refs.scroll,{
@@ -41,13 +43,19 @@
 					probeType:this.probeType,
 					pullUpLoad:this.pullUpLoad
 				})
-				this.scroll.on('scroll',(position)=>{
-					this.$emit('position',position)
-				})
-				// this.scroll.on('pullingUp',()=>{
-				// 	// console.log('上啦加载更多');
-				// 	this.$emit('pullingUp')
-				// })
+				if (this.probeType==2||this.probeType==3){
+					this.scroll.on('scroll',(position)=>{
+						// console.log('监听滚动条位置');
+						this.$emit('position',position)
+					})
+				}
+
+				if (this.pullUpLoad){
+					this.scroll.on('pullingUp',()=>{
+						// console.log('上啦加载更多');
+						this.$emit('pullingUp')
+					})
+				}
 			},
 
     }
