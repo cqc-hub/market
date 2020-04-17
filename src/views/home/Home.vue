@@ -66,6 +66,7 @@
 		},
 		data(){
 			return{
+				saveY:0,
 				banners:[],
 				recommends:[],
 				goods:{
@@ -79,6 +80,10 @@
 				tabOffsetTop:0,
 				isTabFixed:false
 			}
+		},
+
+		destroyed(){
+			console.log('111');
 		},
 		created() {
 			//请求多种数据
@@ -167,6 +172,13 @@
 			showGods(){
 				return this.goods[this.currentType].list
 			}
+		},
+		activated(){
+			this.$refs.scroll.refresh()
+			this.$refs.scroll.scrollTo(0,this.saveY,0)
+		},
+		deactivated(){
+			this.saveY=this.$refs.scroll.scroll.y
 		}
 	}
 </script>
