@@ -5,7 +5,7 @@
     /*  定义css变量*/
     --color-text: #666;
     /*提前定义变量    color:var(--color-text)*/
-    --color-high-text: #ff577;
+    --color-high-text: deeppink;
     --color-tint: rgba(0,0,0,.88);
     --color-background:#fff;
     /*background: var(--color-background);*/

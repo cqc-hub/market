@@ -1,6 +1,6 @@
 <template>
-	<div >
-		<nav-bar>
+	<div>
+		<nav-bar class="detailnavbar">
 			<div slot="left" class="back" @click="itemback">
 				<img src="~assets/img/datail/line-arrowleft.svg" alt="">
 			</div>
@@ -43,6 +43,9 @@
 </script>
 
 <style scoped>
+	.detailnavbar{
+		background-color: rgba(204, 204, 204, 0.9);
+	}
 	.active{
 		color: red;
 	}
