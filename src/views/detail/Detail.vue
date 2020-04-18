@@ -6,6 +6,10 @@
 			<detail-base-info :goods="GoodsInfo"></detail-base-info>
 			<detail-shop-info :shop="ShopInfo"></detail-shop-info>
 			<detail-images-info :imagesInfo="detailInfo" ></detail-images-info>
+			<detail-param-info :paramInfo="GoodsParams"></detail-param-info>
+			<detail-eval-info :commentInfo="EvalInfo"></detail-eval-info>
+			<detail-recommend></detail-recommend>
+			<good-list :goods="recommds"></good-list>
 		</scroll>
 	</div>
 </template>
@@ -14,12 +18,16 @@
 	import DetailNavBar from "@/views/detail/childrenComponents/DetailNavBar";
 	import Scroll from "@/components/common/scroll/Scroll";
 
-	import {getDetail,GoodsInfo,ShopInfo} from "@/network/datail";
+	import {getDetail,GoodsInfo,ShopInfo,GoodsParams,getRecommend} from "@/network/datail";
 	import DetailSwiper from "@/views/detail/childrenComponents/DetailSwiper";
 	import DetailBaseInfo from "@/views/detail/childrenComponents/DetailBaseInfo";
 	import DetailShopInfo from "@/views/detail/childrenComponents/DetailShopInfo";
 	import DetailImagesInfo from "@/views/detail/childrenComponents/DetailImagesInfo";
 	import {debounce} from "@/common/utils";
+	import DetailParamInfo from "@/views/detail/childrenComponents/DetailParamInfo";
+	import DetailEvalInfo from "@/views/detail/childrenComponents/DetailEvalInfo";
+	import DetailRecommend from "@/views/detail/childrenComponents/DetailRecommend";
+	import GoodList from "@/components/content/goods/GoodList";
 
 	export default {
 				//详情页
@@ -30,7 +38,10 @@
 						topImages:[],
 						GoodsInfo:{},
 						ShopInfo:{},
-						detailInfo:{}
+						detailInfo:{},
+						GoodsParams:{},
+						EvalInfo:{},
+						recommds:[]
 					}
 				},
 			components:{
@@ -39,13 +50,17 @@
 				DetailSwiper,
 				DetailBaseInfo,
 				DetailShopInfo,
-				DetailImagesInfo
+				DetailImagesInfo,
+				DetailParamInfo,
+				DetailEvalInfo,
+				DetailRecommend,
+				GoodList
 			},
 				created() {
         	this.id=this.$route.params.id
 					//根据id发送网络请求
 					getDetail(this.id).then(res=>{
-						console.log(res);
+						// console.log(res);
 						const data=res.result
 						this.topImages=data.itemInfo.topImages
 						//获取商品信息
@@ -56,6 +71,20 @@
 
 						//获取商品详情信息
 						this.detailInfo=data.detailInfo
+
+						//获取参数信息
+						this.GoodsParams=new GoodsParams(data.itemParams.info,data.itemParams.rule)
+
+						// 获取评论数据
+						if (data.rate.list.length!=0) {
+							this.EvalInfo = data.rate.list[0];
+							// console.log(this.EvalInfo);
+						}
+
+					})
+					getRecommend().then(res=>{
+						this.recommds=res.data.list
+						// console.log(this.recommds);
 					})
 				},
 		methods:{
@@ -64,7 +93,7 @@
 			// }
 		},
 		mounted(){
-			const refresh=debounce(this.$refs.scroll && this.$refs.scroll.refresh,300)
+			const refresh=debounce(this.$refs.scroll && this.$refs.scroll.refresh,200)
 			//监听图片加载完成
 			this.$bus.$on('detailimgLoad',()=>{
 				// this.$refs.scroll && this.$refs.scroll.refresh()
