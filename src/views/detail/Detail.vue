@@ -28,6 +28,7 @@
 	import DetailEvalInfo from "@/views/detail/childrenComponents/DetailEvalInfo";
 	import DetailRecommend from "@/views/detail/childrenComponents/DetailRecommend";
 	import GoodList from "@/components/content/goods/GoodList";
+	import {itemListerMixin} from "@/common/mixin";
 
 	export default {
 				//详情页
@@ -41,9 +42,14 @@
 						detailInfo:{},
 						GoodsParams:{},
 						EvalInfo:{},
-						recommds:[]
+						recommds:[],
+						detailimgLoad:null,
+						detailImgLoad:null,
+						itemListerMixin:null
+
 					}
 				},
+		mixins:[itemListerMixin],
 			components:{
 				DetailNavBar,
 				Scroll,
@@ -95,10 +101,21 @@
 		mounted(){
 			const refresh=debounce(this.$refs.scroll && this.$refs.scroll.refresh,200)
 			//监听图片加载完成
-			this.$bus.$on('detailimgLoad',()=>{
+			this.detailimgLoad=()=>{
 				// this.$refs.scroll && this.$refs.scroll.refresh()
 				refresh()
-			})
+			}
+			this.$bus.$on('detailimgLoad',this.detailimgLoad)
+			this.detailImgLoad=()=>{
+				// this.$refs.scroll && this.$refs.scroll.refresh()
+				refresh()
+			}
+			this.$bus.$on('detailImgLoad',	this.detailImgLoad)
+		},
+		destroyed(){
+      //  	取消监听全局事件
+			this.$bus.$off('detailimgLoad',this.detailimgLoad)
+			this.$bus.$off('detailImgLoad',this.detailImgLoad)
 		}
 
 		}

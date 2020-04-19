@@ -22,7 +22,11 @@
 			},
 			methods:{
 				imageLoad(){
-					this.$bus.$emit('imageLoad')
+					if(this.$route.path.indexOf('/home')){
+						this.$bus.$emit('imageLoad')
+					}else if(this.$route.path.indexOf('//category')){
+						this.$bus.$emit('detailImgLoad')
+					}
 				},
 				itemClick(){
 					this.$router.push('/detail/'+this.goodsItem.iid)

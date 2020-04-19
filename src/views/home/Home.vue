@@ -78,7 +78,8 @@
 				currentType:'pop',
 				isShow:false,
 				tabOffsetTop:0,
-				isTabFixed:false
+				isTabFixed:false,
+				imgLoadf:null
 			}
 		},
 
@@ -96,11 +97,12 @@
 		},
 		mounted(){
 			const refresh=debounce(this.$refs.scroll && this.$refs.scroll.refresh,300)
-			//监听图片加载完成
-			this.$bus.$on('imageLoad',()=>{
+			this.imgLoadf=()=>{
 				// this.$refs.scroll && this.$refs.scroll.refresh()
 				refresh()
-			})
+			}
+			//监听图片加载完成
+			this.$bus.$on('imageLoad',this.imgLoadf)
 
 		},
 		methods:{
@@ -179,6 +181,7 @@
 		},
 		deactivated(){
 			this.saveY=this.$refs.scroll.scroll.y
+			this.$bus.$off('imageLoad',this.imgLoadf)
 		}
 	}
 </script>
