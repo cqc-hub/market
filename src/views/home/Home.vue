@@ -1,7 +1,7 @@
 <template>
 	<div id="home">
 		<nav-bar class="home-nav">
-			<div slot="center">购物街</div>
+			<div slot="center">蘑菇街</div>
 		</nav-bar>
 		<tab-control :titles="['流行','新款','精选']"
 								 @TabControlClick="TabControlClick"

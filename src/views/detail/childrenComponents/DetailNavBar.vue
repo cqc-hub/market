@@ -32,11 +32,11 @@
 		methods:{
         	itemClick(index){
         		this.currentIndex=index
+						this.$emit('itemClick',index)
 					},
 			itemback(){
-        		// this.$router.back()
-						this.$router.go(-1)
-
+				// this.$router.go(-1)
+        		this.$router.back()
 			}
 		}
     }

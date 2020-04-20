@@ -1,16 +1,17 @@
 <template>
 	<div id="detail">
-		<detail-nav-bar class="detailnavbar"></detail-nav-bar>
-		<scroll class="scroll-height" ref="scroll">
-			<detail-swiper :topImages="topImages"></detail-swiper>
+		<detail-nav-bar class="detailnavbar" @itemClick="navItemClick" ref="detailnavbar"></detail-nav-bar>
+		<scroll class="scroll-height" ref="scroll" :probe-type="3" @position="position">
+			<detail-swiper :top-images="topImages"></detail-swiper>
 			<detail-base-info :goods="GoodsInfo"></detail-base-info>
 			<detail-shop-info :shop="ShopInfo"></detail-shop-info>
-			<detail-images-info :imagesInfo="detailInfo" ></detail-images-info>
-			<detail-param-info :paramInfo="GoodsParams"></detail-param-info>
-			<detail-eval-info :commentInfo="EvalInfo"></detail-eval-info>
-			<detail-recommend></detail-recommend>
+			<detail-images-info :images-info="detailInfo" ></detail-images-info>
+			<detail-param-info :param-info="GoodsParams" ref="params"></detail-param-info>
+			<detail-eval-info :comment-info="EvalInfo" ref="evals"></detail-eval-info>
+			<detail-recommend ref="recommends"></detail-recommend>
 			<good-list :goods="recommds"></good-list>
 		</scroll>
+		<Detail-bottom-bar></Detail-bottom-bar>
 	</div>
 </template>
 
@@ -29,7 +30,7 @@
 	import DetailRecommend from "@/views/detail/childrenComponents/DetailRecommend";
 	import GoodList from "@/components/content/goods/GoodList";
 	import {itemListerMixin} from "@/common/mixin";
-
+	import DetailBottomBar from"@/views/detail/childrenComponents/DetailBottomBar";
 	export default {
 				//详情页
         name: "Detail",
@@ -45,10 +46,14 @@
 						recommds:[],
 						detailimgLoad:null,
 						detailImgLoad:null,
-						itemListerMixin:null
+						itemListerMixin:null,
+						itemTopYs:[0],
+						getItemTopY:null,
+						currentIndex:0
 
 					}
 				},
+
 		mixins:[itemListerMixin],
 			components:{
 				DetailNavBar,
@@ -60,9 +65,17 @@
 				DetailParamInfo,
 				DetailEvalInfo,
 				DetailRecommend,
-				GoodList
+				GoodList,
+				DetailBottomBar
 			},
 				created() {
+        	this.getItemTopY=debounce(()=>{
+						this.itemTopYs=[0]
+						this.itemTopYs.push(this.$refs.params.$el.offsetTop)
+						this.itemTopYs.push(this.$refs.evals.$el.offsetTop)
+						this.itemTopYs.push(this.$refs.recommends.$el.offsetTop)
+					},200)
+
         	this.id=this.$route.params.id
 					//根据id发送网络请求
 					getDetail(this.id).then(res=>{
@@ -86,29 +99,70 @@
 							this.EvalInfo = data.rate.list[0];
 							// console.log(this.EvalInfo);
 						}
-
+						this.$nextTick(()=>{  //$nextTick下一帧(当前函数执行完调用)
+							this.getItemTopY()
+						})
 					})
 					getRecommend().then(res=>{
 						this.recommds=res.data.list
 						// console.log(this.recommds);
 					})
+
 				},
 		methods:{
+
+			navItemClick(index){
+				// console.log(index);
+				this.$refs.scroll.scrollTo(0,-this.itemTopYs[index],1000)
+			},
 			// scrollrefresh(){
 			// 	this.$refs.scroll.refresh()
 			// }
+			position(position){
+				const y=-position.y
+				const ty=this.itemTopYs
+				const leng=this.itemTopYs.length
+				// console.log(ty);
+				// console.log(y);
+
+				for (let i in ty){
+						/* console.log(i + 1);//11 21 31  这里内的 i 是字符串不是数字！！！*/
+					// if(y>=ty[i] && y<ty[i*1+1]){
+					// 	this.$refs.detailnavbar.currentIndex=i
+					// }else if (y>=ty[3]){
+					// 	this.$refs.detailnavbar.currentIndex=3
+					// }
+					if (this.currentIndex!=i &&((i*1 < leng-1 && y>=ty[i] && y<ty[i*1+1]) || (i==leng-1 && y>=ty[i]))){
+						this.currentIndex=i
+						// console.log(this.currentIndex);
+					}
+					this.$refs.detailnavbar.currentIndex=this.currentIndex
+				}
+
+			}
+		},
+		updated(){
+
+		},
+		activated(){
+
 		},
 		mounted(){
+
 			const refresh=debounce(this.$refs.scroll && this.$refs.scroll.refresh,200)
 			//监听图片加载完成
 			this.detailimgLoad=()=>{
 				// this.$refs.scroll && this.$refs.scroll.refresh()
 				refresh()
+				this.getItemTopY()
+
 			}
 			this.$bus.$on('detailimgLoad',this.detailimgLoad)
 			this.detailImgLoad=()=>{
 				// this.$refs.scroll && this.$refs.scroll.refresh()
 				refresh()
+				this.getItemTopY()
+
 			}
 			this.$bus.$on('detailImgLoad',	this.detailImgLoad)
 		},
