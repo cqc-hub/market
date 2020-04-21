@@ -11,7 +11,11 @@
 			<detail-recommend ref="recommends"></detail-recommend>
 			<good-list :goods="recommds"></good-list>
 		</scroll>
-		<Detail-bottom-bar></Detail-bottom-bar>
+		<back-top class="back-top" v-show="isShow"
+							@click.native="backtop"
+							:class="{backtopshow:isShow}">
+		</back-top>
+		<Detail-bottom-bar @addCart="addCart"></Detail-bottom-bar>
 	</div>
 </template>
 
@@ -29,8 +33,9 @@
 	import DetailEvalInfo from "@/views/detail/childrenComponents/DetailEvalInfo";
 	import DetailRecommend from "@/views/detail/childrenComponents/DetailRecommend";
 	import GoodList from "@/components/content/goods/GoodList";
-	import {itemListerMixin} from "@/common/mixin";
+	import {itemListerMixin,backTop} from "@/common/mixin";
 	import DetailBottomBar from"@/views/detail/childrenComponents/DetailBottomBar";
+
 	export default {
 				//详情页
         name: "Detail",
@@ -49,12 +54,14 @@
 						itemListerMixin:null,
 						itemTopYs:[0],
 						getItemTopY:null,
-						currentIndex:0
+						currentIndex:0,
+
+
 
 					}
 				},
 
-		mixins:[itemListerMixin],
+		mixins:[itemListerMixin,backTop],
 			components:{
 				DetailNavBar,
 				Scroll,
@@ -66,7 +73,7 @@
 				DetailEvalInfo,
 				DetailRecommend,
 				GoodList,
-				DetailBottomBar
+				DetailBottomBar,
 			},
 				created() {
         	this.getItemTopY=debounce(()=>{
@@ -110,7 +117,19 @@
 
 				},
 		methods:{
-
+			addCart(){
+				//获取cart数据
+				const cart={}
+				cart.id=this.id
+				cart.img=this.topImages[0]
+				cart.titlt=this.GoodsInfo.title
+				cart.info=this.GoodsInfo.desc
+				cart.price=this.GoodsInfo.newPrice.substr(1)
+				// console.log(cart.price);
+				//添加cart对象到cart
+				this.$store.commit('addCarts',cart)
+				// console.log(this.$store.state.carts);
+			},
 			navItemClick(index){
 				// console.log(index);
 				this.$refs.scroll.scrollTo(0,-this.itemTopYs[index],1000)
@@ -139,6 +158,7 @@
 					this.$refs.detailnavbar.currentIndex=this.currentIndex
 				}
 
+			this.isShow=y>300
 			}
 		},
 		updated(){
@@ -188,9 +208,10 @@
 	}
 	.scroll-height {
 		position: relative;
-		height: calc(100% - 44px);
-		overflow: hidden;
+		height: calc(100% - 44px - 49px);
 		width: 100%;
 	}
-
+	.back-top{
+		z-index: 8;
+	}
 </style>

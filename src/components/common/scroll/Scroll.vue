@@ -20,7 +20,7 @@
 				finishPullUp(){
 					this.scroll && this.scroll.finishPullUp()
 				},
-        	scrollTo(x,y,time=500){
+        	scrollTo(x=0,y=0,time=500){
 						this.scroll && this.scroll.scrollTo(x,y,time)
 					},
 					refresh(){

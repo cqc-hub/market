@@ -51,6 +51,7 @@
 	import Scroll from "@/components/common/scroll/Scroll";
 	import BackTop from "@/components/content/backtop/BackTop";
 	import {debounce} from "@/common/utils";
+	import {backTop} from "@/common/mixin";
 
 	export default{
 		name:'Home',
@@ -61,8 +62,7 @@
 			Feature,
 			TabControl,
 			GoodList,
-			Scroll,
-			BackTop
+			Scroll
 		},
 		data(){
 			return{
@@ -76,13 +76,12 @@
 
 				},
 				currentType:'pop',
-				isShow:false,
 				tabOffsetTop:0,
 				isTabFixed:false,
 				imgLoadf:null
 			}
 		},
-
+		mixins:[backTop],
 		destroyed(){
 			console.log('111');
 		},
@@ -110,10 +109,6 @@
 				//获取tabcontrol的offsetTop
 				this.tabOffsetTop=this.$refs.tabControl2.$el.offsetTop
 
-			},
-			backtop(){
-				// console.log(this.$refs.scroll);
-				this.$refs.scroll.scrollTo(0,0,500)
 			},
 			loadMore(){
 				// console.log('loadmore');
@@ -156,6 +151,32 @@
 				getHomeMultidata().then(res=>{
 					this.banners=res.data.banner.list
 					this.recommends=res.data.recommend.list
+
+
+// 					function funDownload(content, filename) {
+// 						let cont = JSON.stringify(content);
+// 						// 创建隐藏的可下载链接
+// 						var eleLink = document.createElement('a');
+// 						eleLink.download = filename;
+// 						eleLink.style.display = 'none';
+// 						// 字符内容转变成blob地址
+// 						var blob = new Blob([cont]);
+// 						eleLink.href = URL.createObjectURL(blob);
+// 						// 触发点击
+// 						document.body.appendChild(eleLink);
+// 						eleLink.click();
+// 						// 然后移除
+// 						document.body.removeChild(eleLink);
+// 					};
+//
+// // 调用
+// 					let data=res;
+// 					funDownload(data,'homeData');
+
+
+
+				}).catch(err=>{
+					console.log('数据请求失败'+':'+err);
 				})
 			},
 			getHomeGoods(type){
