@@ -20,7 +20,7 @@ export class GoodsInfo {
 	constructor(itemInfo,columns,shopInfo) {
 		this.title=itemInfo.title
 		this.desc=itemInfo.desc
-		this.newPrice=itemInfo.price
+		this.newPrice=itemInfo.highNowPrice
 		this.oldPrice=itemInfo.oldPrice
 		this.discount=itemInfo.discountDesc
 		this.realPrice=itemInfo.lowNowPrice

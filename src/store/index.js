@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import mutations from './mutations/mutations'
+import actions from './actions/actions'
+import getters from './getters/getters'
 //挂载Vuex
 Vue.use(Vuex)
 
@@ -9,19 +11,9 @@ const store = new Vuex.Store({
 	state:{
 		carts:[]
 	},
-	mutations:{
-		addCarts(state,cart){
-			let oldercart=null
-			oldercart=state.carts.find(n=>n.id==cart.id)
-			if (oldercart){
-				oldercart.count ++
-			}else{
-				cart.count=1
-				state.carts.push(cart)
-			}
-
-		}
-	}
+	mutations,
+	actions,
+	getters
 })
 
 export default store

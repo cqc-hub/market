@@ -100,7 +100,7 @@
 
 						//获取参数信息
 						this.GoodsParams=new GoodsParams(data.itemParams.info,data.itemParams.rule)
-
+						// console.log(data);
 						// 获取评论数据
 						if (data.rate.list.length!=0) {
 							this.EvalInfo = data.rate.list[0];
@@ -124,10 +124,11 @@
 				cart.img=this.topImages[0]
 				cart.titlt=this.GoodsInfo.title
 				cart.info=this.GoodsInfo.desc
-				cart.price=this.GoodsInfo.newPrice.substr(1)
-				// console.log(cart.price);
+				cart.price=this.GoodsInfo.newPrice
+				cart.checked=true
+				// console.log(GoodsInfo);
 				//添加cart对象到cart
-				this.$store.commit('addCarts',cart)
+				this.$store.dispatch('addCarts',cart)
 				// console.log(this.$store.state.carts);
 			},
 			navItemClick(index){

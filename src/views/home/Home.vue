@@ -216,6 +216,8 @@
 	.home-nav{
 		background-color: var(--color-tint);
 		color: white;
+		font-weight: bolder;
+
 		/*position: fixed;*/
 		/*top: 0;*/
 		/*left: 0;*/
