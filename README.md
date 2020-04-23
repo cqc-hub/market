@@ -1,4 +1,4 @@
-# market
+# market（手机端适配）
 
 ## Project setup
 ```
