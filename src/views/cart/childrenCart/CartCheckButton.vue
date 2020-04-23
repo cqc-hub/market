@@ -12,10 +12,10 @@
     props: {
 		  value: {
 		    type: Boolean,
-        default: true
+        default: false
       }
     },
-    data: function () {
+    data() {
 		  return {
 		    checked: this.value
       }
@@ -28,6 +28,7 @@
     watch: {
 		  value: function (newValue) {
         this.checked = newValue;
+
       }
     }
 	}
@@ -37,15 +38,19 @@
   .icon-selector {
     position: relative;
     margin: 0;
-    width: 18px;
-    height: 18px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     border: 2px solid #ccc;
     cursor: pointer;
+		text-align: center;
   }
-
+	.icon-selector img{
+		position: relative;
+		top: 3px;
+	}
   .selector-active {
-    background-color: #ff8198;
-    border-color: #ff8198;
+    background-color: #f82553;
+    border-color: #efefef;
   }
 </style>

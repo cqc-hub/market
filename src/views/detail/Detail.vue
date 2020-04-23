@@ -16,6 +16,7 @@
 							:class="{backtopshow:isShow}">
 		</back-top>
 		<Detail-bottom-bar @addCart="addCart"></Detail-bottom-bar>
+<!--		<Tost :msg="msg" :show="show"></Tost>-->
 	</div>
 </template>
 
@@ -35,7 +36,7 @@
 	import GoodList from "@/components/content/goods/GoodList";
 	import {itemListerMixin,backTop} from "@/common/mixin";
 	import DetailBottomBar from"@/views/detail/childrenComponents/DetailBottomBar";
-
+	// import Tost from'components/common/tost/Tost'
 	export default {
 				//详情页
         name: "Detail",
@@ -55,7 +56,8 @@
 						itemTopYs:[0],
 						getItemTopY:null,
 						currentIndex:0,
-
+						// msg:'',
+						// show:false
 
 
 					}
@@ -74,6 +76,7 @@
 				DetailRecommend,
 				GoodList,
 				DetailBottomBar,
+				// Tost
 			},
 				created() {
         	this.getItemTopY=debounce(()=>{
@@ -125,10 +128,16 @@
 				cart.titlt=this.GoodsInfo.title
 				cart.info=this.GoodsInfo.desc
 				cart.price=this.GoodsInfo.newPrice
-				cart.checked=true
 				// console.log(GoodsInfo);
 				//添加cart对象到cart
-				this.$store.dispatch('addCarts',cart)
+				this.$store.dispatch('addCarts',cart).then(res=>{
+					// this.show=true
+					// this.msg=res
+					// setTimeout(()=>{
+					// 	this.show=false
+					// },1000)
+					this.$toast.isShow(res,1000)
+				})
 				// console.log(this.$store.state.carts);
 			},
 			navItemClick(index){

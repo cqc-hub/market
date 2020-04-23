@@ -1,7 +1,13 @@
 <template>
     <div class="cartlist">
 			<scroll class="content" ref="scroll">
-				<Cart-list-item v-for="item in cartList" :itemInfo="item" ></Cart-list-item>
+				<div v-if="cartList.length==0" class="cartEmpyt" @click="toHome">
+					<img src="https://m.rongrong.cn/static/img/gouwuche.png" alt="">
+					<div><b>购物车空空如也,快去选购吧</b></div>
+					<br>
+					<div><b>点我快速购物</b></div>
+				</div>
+				<Cart-list-item v-else v-for="(item,index) in cartList" :itemInfo="item" :index="index"></Cart-list-item>
 			</scroll>
 
 		</div>
@@ -20,6 +26,11 @@
 					}
 				}
 			},
+		methods:{
+			toHome(){
+				this.$router.push('/home')
+			}
+		},
 		components:{
 			Scroll,
 			CartListItem
@@ -43,6 +54,9 @@
 	height: 100vh;
 }
 .content{
-	height: calc(100% - 93px);
+	height: calc(100% - 115px);
 }
+	.cartEmpyt{
+		text-align: center;
+	}
 </style>

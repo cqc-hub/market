@@ -6,6 +6,7 @@
 		</Nav-bar>
 <!--		商品列表展示-->
 		<Cart-list :cartList="cartList"></Cart-list>
+		<Cart-bottom class="cartbottom"></Cart-bottom>
 	</div>
 </template>
 
@@ -13,6 +14,7 @@
 	import NavBar from'@/components/common/navbar/NavBar.vue'
 	import {mapGetters} from 'vuex'
 	import CartList from './childrenCart/CartList'
+	import CartBottom from "@/views/cart/childrenCart/CartBottom";
 	export default {
 		name:'Cart',
 		data(){
@@ -29,7 +31,8 @@
 		},
 		components:{
 			NavBar,
-			CartList
+			CartList,
+			CartBottom
 		},
 		computed:{
 			...mapGetters({
@@ -46,5 +49,11 @@
 		background-color: var(--color-tint);
 		color: white;
 		font-weight: bolder;
+	}
+	.cartbottom {
+		position: fixed;
+		bottom: 49px;
+		left: 0;
+		right: 0;
 	}
 </style>

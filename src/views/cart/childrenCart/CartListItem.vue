@@ -1,7 +1,7 @@
 <template>
 	<div id="shop-item">
 		<div class="item-selector">
-			<CheckButton @checkBtnClick="checkedChange" v-model="itemInfo.checked"></CheckButton>
+			<CheckButton @checkBtnClick="checkedChange()" v-model="itemInfo.checked"></CheckButton>
 		</div>
 		<div class="item-img">
 			<img :src="itemInfo.img" alt="商品图片">
@@ -12,6 +12,12 @@
 			<div class="info-bottom">
 				<div class="item-price left">¥{{itemInfo.price}}</div>
 				<div class="item-count right">x{{itemInfo.count}}</div>
+			</div>
+			<div class="btn">
+				<button @click="incre">+</button>
+				&nbsp;
+				<button @click="deincre">-</button>
+
 			</div>
 		</div>
 	</div>
@@ -30,20 +36,26 @@
 					default(){
 						return {}
 					}
-				}
-			},
-
-			watch:{
-				itemInfo:function () {
-					// console.log(this.itemInfo);
+				},
+				index:{
+					type:Number,
+					default() {
+						return null;
+					}
 				}
 			},
 			components: {
 				CheckButton
 			},
 			methods: {
-				checkedChange: function () {
-					this.itemInfo.checked = !this.itemInfo.checked;
+				checkedChange () {
+					this.$store.commit('checkedChange',this.index)
+				},
+				incre(){
+					this.$store.commit('addCount1',this.index)
+				},
+				deincre(){
+					this.itemInfo.count>1 ? this.$store.commit('deIncre',this.index) :this.$store.commit('removeCarts',this.index)
 				}
 			}
     }
@@ -110,5 +122,13 @@
 
 	.info-bottom .item-price {
 		color: orangered;
+	}
+	.btn{
+		position: absolute;
+		right: 15vw;
+		top: 63px;
+	}
+	.btn button{
+		width: 23px;
 	}
 </style>
