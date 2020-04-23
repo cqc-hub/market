@@ -1,5 +1,5 @@
 <template>
-    <div class="tost" v-show="show">
+    <div class="tost" v-show="show" :class="{toastshow:show}">
 			<div >{{msg}}</div>
 		</div>
 </template>
@@ -45,5 +45,12 @@
 	 top: 50%;
 	 left: 50%;
 	 transform: translate(-50%,-50%);
+ }
+ .toastshow{
+	 animation: toastshow 0.2s linear;
+ }
+ @keyframes toastshow{
+	 from{opacity: 0;}
+	 to{opacity: 0.6;}
  }
 </style>

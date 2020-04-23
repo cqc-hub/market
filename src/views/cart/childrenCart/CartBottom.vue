@@ -10,7 +10,7 @@
 			<div class="aaa">
 				合计:￥{{totaolPrice}}
 			</div>
-			<div class="calculate" @click="calculate"><b>去计算({{cartLen}})</b></div>
+			<div class="calculate" @click="calculate"><b>去结算({{cartLen}})</b></div>
 		</div>
 </template>
 
