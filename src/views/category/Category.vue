@@ -5,7 +5,7 @@
 		</nav-bar>
 		<slide-bar :slide-bar-list="categoryList"  @slideBarItemClick="slideBarItemClick"/>
 		<tab-control :titles="titleList" @TabControlClick="tabClick" ref="tabControl" class="tabcontrol"/>
-		<scroll class="scroll-height">
+		<scroll class="scroll-height" ref="scroll">
 			<Good-list :goods="categoryDetailList" />
 		</scroll>
 	</div>
@@ -45,6 +45,7 @@
 		},
 		methods:{
 			slideBarItemClick({ maitKey, index }) {
+				this.$refs.scroll.scrollTo()
 				this.currentIndex = index;
 				// 每次切换分类初始化tabControl的下标
 				this.$refs.tabControl.curIndex = 0;
