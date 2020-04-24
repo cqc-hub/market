@@ -113,6 +113,6 @@
 		position: fixed;
 		top: 44px;
 		right: 0;
-		left: 65px;
+		left: 75px;
 	}
 </style>
