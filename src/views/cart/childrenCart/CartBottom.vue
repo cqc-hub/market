@@ -48,7 +48,7 @@
         			return item.checked
 						}).reduce((pre,item)=>{
 							return pre+item.count*item.price
-						},0)
+						},0).toFixed(1)
 					},
 				cartLen(){
 					return this.$store.state.carts.filter(item=>{
