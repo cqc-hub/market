@@ -91,6 +91,9 @@
 			forSubcategoryList(){
 				return this.subcategoryList[this.currentIndex]
 			}
+		},
+		activated(){
+			this.$refs.scroll.refresh()
 		}
 
 	}

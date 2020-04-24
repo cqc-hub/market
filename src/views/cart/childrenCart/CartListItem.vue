@@ -55,7 +55,13 @@
 					this.$store.commit('addCount1',this.index)
 				},
 				deincre(){
-					this.itemInfo.count>1 ? this.$store.commit('deIncre',this.index) :this.$store.commit('removeCarts',this.index)
+					if(this.itemInfo.count>1){
+						this.$store.commit('deIncre',this.index)
+					}else{
+						this.$store.commit('removeCarts',this.index)
+						this.$toast.isShow('已从购物车删除该商品',1000)
+					}
+
 				}
 			}
     }
