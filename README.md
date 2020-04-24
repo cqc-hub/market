@@ -1,4 +1,4 @@
-# market（手机端适配）
+# market蘑菇街小商场App（手机端适配）
 
 ## Project setup
 ```
