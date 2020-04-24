@@ -59,14 +59,14 @@ export default {
   bottom: 49px;
   left: 0;
   overflow: hidden;
-  width: 100px;
+  width: 75px;
   background-color: #f6f6f6;
 }
 
 .slide-bar-item {
   font-size: 14px;
   line-height: 45px;
-  width: 100px;
+  width: 70px;
   height: 45px;
   user-select: none;
   text-align: center;

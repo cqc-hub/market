@@ -182,14 +182,12 @@
 			const refresh=debounce(this.$refs.scroll && this.$refs.scroll.refresh,200)
 			//监听图片加载完成
 			this.detailimgLoad=()=>{
-				// this.$refs.scroll && this.$refs.scroll.refresh()
 				refresh()
 				this.getItemTopY()
 
 			}
 			this.$bus.$on('detailimgLoad',this.detailimgLoad)
 			this.detailImgLoad=()=>{
-				// this.$refs.scroll && this.$refs.scroll.refresh()
 				refresh()
 				this.getItemTopY()
 

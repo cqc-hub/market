@@ -74,7 +74,7 @@ export default {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100vw;
   padding: 10px;
 }
@@ -82,15 +82,17 @@ export default {
 .goods-list-item {
   font-size: 14px;
   position: relative;
-	width: 100px;
+	width: 130px;
   padding-bottom: 4px;
 	display: inline-block;
+	align-items: center;
+	text-align: center;
 }
 
 .goods-list-item img {
   display: block;
-	width: 100px;
-	height: 140px;
+	width: 140px;
+	height: 190px;
   border-radius: 5px;
   object-fit: cover;
 }

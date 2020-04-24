@@ -9,7 +9,10 @@
 
 <script>
 	import MainTabBar from "components/content/maintabbar/MainTabBar";
-export default {
+	import Vue from 'vue'
+	//作为事件总线
+	Vue.prototype.$bus=new Vue()
+	export default {
   name: 'App',
   components: {
 		MainTabBar
