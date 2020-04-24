@@ -207,19 +207,22 @@
 
 <style scoped>
 	#detail{
-		position: relative;
+		position: absolute;
 		z-index: 14;
 		height: 100vh;
 		background-color: #d3cdd1;
+		width: 100vw;
 	}
 	.detailnavbar{
 		position: relative;
 		z-index: 15;
 	}
 	.scroll-height {
-		position: relative;
-		height: calc(100% - 44px - 49px);
-		width: 100%;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 44px;
+		top: 44px;
 	}
 	.back-top{
 		z-index: 8;

@@ -34,7 +34,7 @@
 			},
 			computed:{
         	showImg(){
-        		return this.goodsItem.image || this.goodsItem.show.img
+        		return this.goodsItem.image || this.goodsItem.show.img || this.goodsItem.img
 					}
 			}
     }

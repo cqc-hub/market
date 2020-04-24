@@ -1,4 +1,4 @@
-function funDownload(content, filename) {
+export function funDownload(content, filename) {
 	let cont = JSON.stringify(content);
 	// 创建隐藏的可下载链接
 	var eleLink = document.createElement('a');
@@ -14,6 +14,6 @@ function funDownload(content, filename) {
 	document.body.removeChild(eleLink);
 };
 
-// 调用
-let data;
-funDownload(data,'homeData');
+// // 调用
+// let data;
+// funDownload(data,'homeData');

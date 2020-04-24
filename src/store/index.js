@@ -9,6 +9,7 @@ Vue.use(Vuex)
 //创建VueX对象
 const store = new Vuex.Store({
 	state:{
+		//购物车数据
 		carts:[]
 	},
 	mutations,
