@@ -8,7 +8,8 @@ module.exports={
 			viewportUnit: 'vw',
 			selectorBlackList:['ignore','tab-bar','tab-bar-item'],
 			minPixelValue:1,
-			mediaQuery:false
+			mediaQuery:false,
+			exclude:[/TabBar/]
 
 		}
 	}
